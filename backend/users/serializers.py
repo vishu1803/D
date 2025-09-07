@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Profile
-from .models import BlogPost
-from users.serializers import ProfileSerializer
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -17,7 +17,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data["password"],
         )
         return user
-    
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
     email = serializers.EmailField(source="user.email", read_only=True)
@@ -38,11 +39,3 @@ class ProfileSerializer(serializers.ModelSerializer):
             except Exception:
                 return str(obj.avatar)  # If already a URL (from Google)
         return None
-
-
-class BlogPostSerializer(serializers.ModelSerializer):
-    author = ProfileSerializer(source="author.profile", read_only=True)  
-
-    class Meta:
-        model = BlogPost
-        fields = ["id", "title", "content", "summary", "created_at", "author"]

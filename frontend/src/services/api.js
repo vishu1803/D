@@ -1,5 +1,11 @@
 import axios from "axios";
 
+// ✅ Axios instance
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000/api/",
+});
+
+// ✅ Google login function
 export const loginWithGoogle = async (token) => {
   try {
     const response = await axios.post("http://127.0.0.1:8000/auth/google/", {
@@ -12,3 +18,6 @@ export const loginWithGoogle = async (token) => {
     console.error("Google login failed", error);
   }
 };
+
+// ✅ Default export for other components
+export default api;

@@ -1,23 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class BlogPost(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    summary = models.TextField(blank=True, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
 
 class BlogPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blogs")
     title = models.CharField(max_length=200)
     content = models.TextField()
-    summary = models.TextField(blank=True, null=True)
+    summary = models.TextField(blank=True, null=True)  # ✅ can store AI summary
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  # ✅ track edits
 
     def __str__(self):
         return self.title
@@ -39,7 +30,7 @@ class Like(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("blog", "user")  # one like per user per blog
+        unique_together = ("blog", "user")  # ✅ one like per user per blog
 
     def __str__(self):
         return f"{self.user.username} likes {self.blog.title}"
