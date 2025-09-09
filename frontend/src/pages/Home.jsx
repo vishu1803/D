@@ -5,8 +5,10 @@ import api from "../api/axiosInstance.jsx";
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
-    api.get("/api/blogs/").then(res => setBlogs(res.data)).catch(console.error);
-  }, []);
+  api.get("/api/blogs/")
+    .then(res => setBlogs(res.data.results || [])) // <-- take "results"
+    .catch(console.error);
+}, []);
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">All Blogs</h1>

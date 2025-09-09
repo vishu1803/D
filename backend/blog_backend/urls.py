@@ -18,6 +18,8 @@ urlpatterns = [
     path("api/blogs/", list_blogs, name="list-blogs"),
     path("api/blogs/create/", blog_views.create_blog, name="create-blog"),
     path("api/blogs/<int:pk>/summarize/", blog_views.summarize_blog, name="summarize-blog"),
+    path("api/blogs/<int:pk>/", blog_views.blog_detail, name="blog-detail"),
+
 
     # Comments & Likes
     path("api/blogs/<int:blog_id>/comment/", add_comment, name="add-comment"),

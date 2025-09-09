@@ -1,3 +1,4 @@
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -116,3 +117,13 @@ def toggle_like(request, blog_id):
         return Response({"message": "Unliked"}, status=200)
 
     return Response({"message": "Liked"}, status=201)
+
+@api_view(["GET"])
+def blog_detail(request, pk):
+    try:
+        blog = BlogPost.objects.get(pk=pk)
+    except BlogPost.DoesNotExist:
+        return Response({"error": "Blog not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = BlogPostSerializer(blog, context={"request": request})
+    return Response(serializer.data)
